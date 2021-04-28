@@ -1,8 +1,8 @@
 module.exports = {
   'GET /list': [
     {
-      name: 'hhh',
-      age: 18
+      name: 'liuwei',
+      age: 28
     }
   ]
 }

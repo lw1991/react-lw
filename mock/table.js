@@ -1,9 +1,9 @@
 module.exports = {
   'GET /user': (req, res) => {
     res.json({
-      name: 'hny',
-      age: 18,
-      city: 'da zhou'
+      name: 'liuwei',
+      age: 28,
+      city: 'wuhan'
     })
   }
 }
