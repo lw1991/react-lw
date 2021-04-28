@@ -1,0 +1,16 @@
+.home {
+  &-box {
+    display: flex;
+    margin-top: 2px;
+    transform: translate(20px, 30px);
+    width: 500px;
+    li {
+      padding: 20px;
+      background-color: $main-color;
+      color: #fff;
+      &:not(:last-child) {
+        margin-right: 5px;
+      }
+    }
+  }
+}

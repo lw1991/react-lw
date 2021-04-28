@@ -1,0 +1,114 @@
+/* 单行超出变点状 */
+@mixin overflow-punctiform {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* 多行超出变点状 */
+@mixin overflow-punctiform-n($n: 2) {
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp: $n;
+  overflow:hidden;
+}
+
+@each $name,$prop in (p:padding,pt:padding-top,pr:padding-right,pb:padding-bottom,pl:padding-left){
+  @for $i from 5 through 30 {
+    .#{$name}#{$i}{
+      #{$prop}: #{$i}px;
+    }
+  }
+}
+
+// 更方便的使用间隔，如p10类名，padding：10px;
+@each $name,$prop in (m:margin,mt:margin-top,mr:margin-right,mb:margin-bottom,ml:margin-left){
+  @for $i from 5 through 30 {
+    .#{$name}#{$i}{
+      #{$prop}: #{$i}px;
+    }
+  }
+}
+
+
+@for $i from 12 through 24 {
+  @if $i < 16 {
+    .f#{$i} {
+      font-size: #{$i}px; // 12. 13. 14. 15. 16px;
+    }
+  } @else if $i % 2 == 0 {
+    .f#{$i} {
+      font-size: #{$i}px; // 18 20 22 24
+    }
+  }
+}
+
+/* 根据条件，输出 1px 边框（top or bottom） */
+@mixin render-1px-top-and-bottom($position, $color) {
+  content: '';
+  position: absolute;
+  @if $position == top {
+    top: 0;
+    -webkit-transform-origin: 0 top;
+    transform-origin: 0 top;
+  }
+  @if $position == bottom {
+    bottom: 0;
+    -webkit-transform-origin: 0 bottom;
+    transform-origin: 0 bottom;
+  }
+  left: 0;
+  background: $color;
+  width: 100%;
+  height: 1px;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+}
+
+/* 根据条件，输出 1px （left or right） */
+@mixin render-1px-left-and-right($position, $color) {
+  content: '';
+  position: absolute;
+  @if $position == left {
+    left: 0;
+  }
+  @if $position == right {
+    right: 0;
+  }
+  background: $color;
+  width: 1px;
+  height: 100%;
+  -webkit-transform: scaleX(0.5);
+  transform: scaleX(0.5);
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+
+/* 输出 1px 边框：
+  一、对于一个元素，只能输出两个边框（top bottom 二选一、left right 二选一）
+  二、如果要输出 4 条边框，考虑使用两个元素嵌套
+*/
+@mixin get-1px-border($position, $color) {
+  position: relative;
+  @if $position == top {
+    &:before {
+      @include render-1px-top-and-bottom($position, $color);
+    }
+  }
+  @if $position == bottom {
+    &:after {
+      @include render-1px-top-and-bottom($position, $color);
+    }
+  }
+
+  @if $position == left {
+    &:before {
+      @include render-1px-left-and-right($position, $color);
+    }
+  }
+  @if $position == right {
+    &:after {
+      @include render-1px-left-and-right($position, $color);
+    }
+  }
+}
